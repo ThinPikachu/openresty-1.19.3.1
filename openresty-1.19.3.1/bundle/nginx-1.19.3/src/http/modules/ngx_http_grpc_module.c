@@ -4869,10 +4869,16 @@ ngx_http_grpc_set_ssl(ngx_conf_t *cf, ngx_http_grpc_loc_conf_t *glcf)
                           "for certificate \"%V\"", &glcf->ssl_certificate);
             return NGX_ERROR;
         }
-
+if (T_NGX_SSL_NTLS)
+        if (ngx_ssl_certificate(cf, glcf->upstream.ssl, &glcf->ssl_certificate,
+                                &glcf->ssl_certificate_key, glcf->ssl_passwords,
+                                SSL_NORMAL_CERT)
+            != NGX_OK)
+#else
         if (ngx_ssl_certificate(cf, glcf->upstream.ssl, &glcf->ssl_certificate,
                                 &glcf->ssl_certificate_key, glcf->ssl_passwords)
             != NGX_OK)
+#endif
         {
             return NGX_ERROR;
         }
