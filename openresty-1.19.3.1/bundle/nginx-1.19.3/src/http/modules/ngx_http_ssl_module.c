@@ -777,14 +777,7 @@ ngx_http_ssl_merge_srv_conf(ngx_conf_t *cf, void *parent, void *child)
                               conf->file, conf->line);
                 return NGX_CONF_ERROR;
             }
-        } else if (!conf->reject_handshake) {
-            ngx_log_error(NGX_LOG_EMERG, cf->log, 0,
-                          "no \"ssl_certificate\" is defined for "
-                          "the \"ssl\" directive in %s:%ui",
-                          conf->file, conf->line);
-            return NGX_CONF_ERROR;
-        }
-
+        } 
     } else{
         if (conf->certificates == NULL
 #if (T_NGX_SSL_NTLS)
@@ -822,9 +815,6 @@ ngx_http_ssl_merge_srv_conf(ngx_conf_t *cf, void *parent, void *child)
                 return NGX_CONF_ERROR;
             }
 #endif
-        } else if (!conf->reject_handshake) {
-            ngx_log_error(NGX_LOG_INFO, cf->log, 0, "certificate and reject_handshake is null");
-		    return NGX_CONF_OK;
         }
     }
 
@@ -1465,7 +1455,7 @@ ngx_http_ssl_init(ngx_conf_t *cf)
                 ngx_log_error(NGX_LOG_EMERG, cf->log, 0,
 #if (T_NGX_SSL_NTLS)
                               "no \"ssl_certificate\", \"ssl_enc_certificate\" "
-+                             "or \"ssl_sign_certificate\" is defined for "
+                              "or \"ssl_sign_certificate\" is defined for "
 #else
                               "no \"ssl_certificate\" is defined for "
 #endif
